@@ -58,7 +58,7 @@
       background: var(--white); opacity: 0.1;
       clip-path: polygon(45% 0, 100% 0, 55% 100%, 0% 100%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 600px; }
+    .hero-content { position: relative; z-index: 1; max-width: 520px; }
     .hero-tag {
       display: inline-block; background: var(--purple);
       font-family: 'Barlow Condensed', sans-serif;
@@ -103,8 +103,8 @@
 
     /* PHONE MOCKUP */
     .hero-phone {
-      position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
-      z-index: 2; width: 200px;
+      position: absolute; right: 2%; top: 50%; transform: translateY(-50%);
+      z-index: 2; width: 220px;
       animation: fadeUp 0.8s ease 0.6s both;
     }
     .phone-frame {
@@ -389,9 +389,12 @@
       .sec, .v-intro { padding: 3rem 1.5rem; }
       .hero { padding: 7rem 1.5rem 4rem; }
       .hero-shape1 { width: 100%; clip-path: none; opacity: 0.3; }
+      .hero-phone { display: none; }
+      .hero-content { max-width: 100%; }
       .ohjelma-grid, .ct-grid, .price-grid { grid-template-columns: 1fr; }
       .why-grid, .coaching-grid { grid-template-columns: 1fr; }
       .steps-grid { grid-template-columns: 1fr 1fr; }
+      .hero-cards { flex-direction: column; }
     }
   </style>
 </head>
@@ -416,7 +419,7 @@
   <div class="hero-shape2"></div>
   <div class="hero-content">
     <span class="hero-tag">Psyykkisen suorituskyvyn ohjelma</span>
-    <img src="logo.png" alt="Mielen Kompassi" style="height:130px; width:auto; margin-bottom:0.6rem; display:block;">
+    <img src="logo.png" alt="Mielen Kompassi" style="height:180px; width:auto; margin-bottom:0.6rem; display:block; margin-left:-10px;">
     <p class="hero-sub">Mentaalinen etu alkaa täältä</p>
     <p class="hero-tagline">Data näyttää suunnan. Valmennus vie perille.</p>
     <div class="hero-cards">
