@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mielen Kompassi – Psyykkisen suorituskyvyn ohjelma</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --teal: #00a8ad;
+      --teal-dark: #007c80;
+      --teal-deeper: #005f63;
+      --white: #ffffff;
+      --black: #111111;
+      --purple: #7c4dbd;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Barlow', sans-serif; background: var(--teal); color: var(--white); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(0,80,84,0.93);
+      backdrop-filter: blur(10px);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .nav-compass { font-size: 1.5rem; }
+    .nav-brand {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 1.25rem; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--white); line-height: 1;
+    }
+    .nav-brand em { font-style: normal; background: var(--white); color: var(--black); padding: 0 4px; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh; background: var(--teal);
+      position: relative; overflow: hidden;
+      display: flex; align-items: center;
+      padding: 8rem 3rem 5rem;
+    }
+    .hero-shape1 {
+      position: absolute; top: 0; right: -8%; bottom: 0; width: 52%;
+      background: var(--teal-dark);
+      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .hero-shape2 {
+      position: absolute; top: 0; right: 21%; bottom: 0; width: 6%;
+      background: var(--white); opacity: 0.1;
+      clip-path: polygon(45% 0, 100% 0, 55% 100%, 0% 100%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 600px; }
+    .hero-tag {
+      display: inline-block; background: var(--purple);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 0.3rem 0.9rem; margin-bottom: 1.4rem;
+    }
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: clamp(4.5rem, 10vw, 8rem);
+      line-height: 0.88; text-transform: uppercase; margin-bottom: 0.2em;
+    }
+    .hero h1 .inv { color: var(--black); }
+    .hero-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.8); margin-bottom: 1.8rem;
+    }
+    .hero-tagline { font-size: 1.1rem; font-weight: 600; font-style: italic; margin-bottom: 2rem; }
+    .hero-list { list-style: none; margin-bottom: 2.8rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .hero-list li { font-size: 0.97rem; padding-left: 1.3rem; position: relative; line-height: 1.5; opacity: 0.92; }
+    .hero-list li::before { content: '•'; position: absolute; left: 0; font-weight: 900; }
+    .hero-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.9rem 2rem; background: var(--white); color: var(--black);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1rem; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none; transition: background 0.2s, transform 0.15s;
+    }
+    .hero-btn:hover { background: #f0f0f0; transform: translateY(-2px); }
+
+    /* HERO CARDS */
+    .hero-cards { display: flex; gap: 0.8rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .hero-card {
+      background: rgba(0,0,0,0.2); padding: 1rem 1.2rem;
+      flex: 1; min-width: 140px;
+      border-top: 2px solid rgba(255,255,255,0.4);
+    }
+    .hero-card-icon { color: var(--white); margin-bottom: 0.5rem; opacity: 0.9; }
+    .hero-card-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+    .hero-card-text { font-size: 0.8rem; line-height: 1.45; opacity: 0.78; }
+
+    /* PHONE MOCKUP */
+    .hero-phone {
+      position: absolute; right: 4%; top: 50%; transform: translateY(-50%);
+      z-index: 2; width: 200px;
+      animation: fadeUp 0.8s ease 0.6s both;
+    }
+    .phone-frame {
+      background: #1a1a1a;
+      border-radius: 32px;
+      padding: 10px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.08);
+      position: relative;
+    }
+    .phone-notch {
+      width: 60px; height: 12px;
+      background: #1a1a1a; border-radius: 0 0 10px 10px;
+      margin: 0 auto 6px; position: relative; z-index: 2;
+    }
+    .phone-screen {
+      background: var(--white);
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 340px;
+    }
+    .phone-screen-header {
+      background: var(--teal);
+      padding: 10px 12px 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 0.7rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .phone-screen-body { padding: 10px 12px; }
+    .phone-score {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 2rem; color: var(--teal);
+      line-height: 1;
+    }
+    .phone-score-label { font-size: 0.6rem; color: #888; margin-bottom: 8px; }
+    .phone-bar { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+    .phone-bar-label { font-size: 0.58rem; color: #555; width: 55px; flex-shrink: 0; }
+    .phone-bar-track { flex: 1; height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+    .phone-bar-fill { height: 100%; border-radius: 3px; }
+    .phone-radar {
+      margin: 8px auto;
+      width: 100px; height: 80px;
+      display: block;
+    }
+
+    /* SECTIONS */
+    .sec { padding: 5rem 3rem; position: relative; overflow: hidden; }
+    .inner { max-width: 1100px; margin: 0 auto; }
+    .eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.76rem; letter-spacing: 0.18em;
+      text-transform: uppercase; opacity: 0.65; margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: clamp(2rem, 3.5vw, 2.8rem);
+      text-transform: uppercase; line-height: 1.05; margin-bottom: 1.4rem;
+    }
+    .lead { font-size: 1rem; line-height: 1.72; opacity: 0.88; max-width: 640px; }
+    .bg-dark { background: var(--teal-dark); }
+    .bg-deeper { background: var(--teal-deeper); }
+    .bg-black { background: var(--black); }
+
+    /* OHJELMA — redesigned */
+    .ohjelma-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; align-items: start; }
+    .ohjelma-features { display: flex; flex-direction: column; gap: 0; }
+    .ofeature {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.3rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .ofeature:last-of-type { border-bottom: none; }
+    .ofeature-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--white);
+    }
+    .ofeature h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
+    .ofeature p { font-size: 0.88rem; line-height: 1.6; opacity: 0.8; }
+    .ohjelma-quote {
+      margin-top: 1.5rem; padding: 1.4rem;
+      background: rgba(0,0,0,0.2);
+      border-left: 3px solid var(--white);
+      display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .ohjelma-quote p { font-size: 0.9rem; line-height: 1.65; opacity: 0.85; }
+    .ohjelma-quote strong { color: var(--white); font-weight: 600; }
+
+    /* SLIDER MOCKUP */
+    .slider-mockup {
+      background: var(--white); border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    }
+    .sm-header {
+      background: var(--teal-dark);
+      padding: 1rem 1.4rem;
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.95rem;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--white);
+    }
+    .sm-logo { font-size: 1.2rem; }
+    .sm-body { padding: 1.4rem; color: var(--black); }
+    .sm-sub { font-size: 0.72rem; color: #888; margin-bottom: 1.4rem; line-height: 1.4; }
+    .sm-row { margin-bottom: 1.2rem; }
+    .sm-label {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; font-weight: 600; color: #333;
+      margin-bottom: 0.45rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .sm-track {
+      position: relative; height: 8px;
+      background: #eee; border-radius: 4px; overflow: visible;
+    }
+    .sm-fill {
+      height: 100%; border-radius: 4px;
+      background: var(--teal); transition: width 0.3s;
+    }
+    .sm-fill-orange { background: #f39c12; }
+    .sm-fill-red { background: #e74c3c; }
+    .sm-thumb {
+      position: absolute; top: 50%; transform: translate(-50%, -50%);
+      width: 16px; height: 16px; border-radius: 50%;
+      background: var(--teal); border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .sm-thumb-orange { background: #f39c12; }
+    .sm-thumb-red { background: #e74c3c; }
+    .sm-val { font-size: 0.75rem; font-weight: 700; color: #555; margin-top: 0.3rem; text-align: right; display: block; }
+    .sm-divider { height: 1px; background: #eee; margin: 1rem 0; }
+    .sm-total-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1rem; }
+    .sm-total-label { font-size: 0.75rem; font-weight: 700; color: #333; white-space: nowrap; text-transform: uppercase; letter-spacing: 0.04em; }
+    .sm-total-bar { flex: 1; height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
+    .sm-total-fill { height: 100%; background: linear-gradient(to right, #e74c3c, #f39c12, var(--teal)); border-radius: 5px; }
+    .sm-total-val { font-size: 0.82rem; font-weight: 800; color: var(--teal-dark); white-space: nowrap; }
+    .sm-alert {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: #fff5f5; border: 1px solid #fdd;
+      border-radius: 6px; padding: 0.6rem 0.9rem;
+      font-size: 0.75rem; font-weight: 600; color: #c0392b;
+    }
+
+    /* MIKSI */
+    .why-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 0; margin-top: 3rem; }
+    .why-card { padding: 2.5rem 2rem; background: rgba(0,0,0,0.18); border-right: 1px solid rgba(255,255,255,0.12); }
+    .why-card:last-child { border-right: none; }
+    .why-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3.5rem; line-height: 1; color: var(--purple); margin-bottom: 0.4rem; }
+    .why-card h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.25rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.7rem; }
+    .why-card p { font-size: 0.91rem; line-height: 1.65; opacity: 0.84; }
+
+    /* VALMENNUS */
+    .v-intro { padding: 4rem 3rem 2rem; }
+    .coaching-grid { display: grid; grid-template-columns: repeat(3,1fr); }
+    .c-card { padding: 2rem; background: var(--teal-dark); border: 1px solid rgba(255,255,255,0.09); transition: background 0.2s, transform 0.2s; }
+    .c-card:hover { background: var(--teal-deeper); transform: translateY(-3px); }
+    .c-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.1rem; color: var(--white);
+      border: 1.5px solid rgba(255,255,255,0.25);
+    }
+    .c-card h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.15rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.8rem; }
+    .c-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+    .c-card li { font-size: 0.86rem; line-height: 1.5; opacity: 0.83; padding-left: 1rem; position: relative; }
+    .c-card li::before { content: '→'; position: absolute; left: 0; font-size: 0.78rem; opacity: 0.55; }
+
+    /* RAKENNE */
+    .steps-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 0; margin-top: 3rem; }
+    .s-card { padding: 2rem 1.4rem; background: rgba(0,0,0,0.15); border-right: 1px solid rgba(255,255,255,0.12); }
+    .s-card:last-child { border-right: none; }
+    .s-num {
+      width: 2.8rem; height: 2.8rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.2rem;
+      margin-bottom: 1rem; background: var(--white); color: var(--teal-deeper);
+    }
+    .s-card:nth-child(2n) .s-num { background: var(--purple); color: var(--white); }
+    .s-card h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.7rem; line-height: 1.2; }
+    .s-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .s-card li { font-size: 0.8rem; line-height: 1.45; opacity: 0.8; padding-left: 0.8rem; position: relative; }
+    .s-card li::before { content: '·'; position: absolute; left: 0; font-weight: 900; }
+
+    /* HINNOITTELU */
+    .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 760px; margin-top: 3rem; }
+    .p-box { padding: 2.5rem; }
+    .p-box.dark { background: var(--black); }
+    .p-box.light { background: var(--white); color: var(--black); }
+    .p-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+    .p-box.light .p-label { color: var(--teal-dark); }
+    .p-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.5rem; text-transform: uppercase; margin-bottom: 1rem; line-height: 1; }
+    .p-price { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 3.8rem; line-height: 1; margin-bottom: 0.3rem; }
+    .p-per { font-size: 0.83rem; opacity: 0.6; margin-bottom: 1.4rem; line-height: 1.5; }
+    .p-features { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.8rem; }
+    .p-features li { font-size: 0.88rem; display: flex; gap: 0.5rem; }
+    .p-features li::before { content: '✓'; color: var(--teal); font-weight: 900; flex-shrink: 0; }
+    .p-box.light .p-features li::before { color: var(--teal-dark); }
+    .p-btn {
+      display: block; text-align: center; padding: 0.8rem 1.5rem;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.95rem;
+      letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none;
+      background: var(--teal); color: var(--white); transition: background 0.2s;
+    }
+    .p-box.light .p-btn { background: var(--teal-dark); }
+    .p-btn:hover { background: var(--teal-deeper); }
+    .p-note { font-size: 0.78rem; opacity: 0.5; font-style: italic; margin-top: 0.9rem; line-height: 1.5; }
+
+    /* YHTEYSTIEDOT */
+    .ct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .ct-rows { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .ct-row { display: flex; align-items: center; gap: 1rem; font-size: 1rem; }
+    .ct-icon { width: 2.2rem; height: 2.2rem; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+    .ct-row a { color: var(--white); text-decoration: none; }
+    .ct-row a:hover { text-decoration: underline; }
+    .ct-person { background: rgba(0,0,0,0.2); padding: 2.2rem; }
+    .ct-photo {
+      width: 110px; height: 110px;
+      background: rgba(255,255,255,0.12);
+      margin-bottom: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; opacity: 0.55; text-align: center; line-height: 1.5;
+      /* OHJE: Korvaa tämä div img-tagilla kun lisäät kuvan:
+         <img src="mari.jpg" alt="Mari Pakka" style="width:110px;height:110px;object-fit:cover;margin-bottom:1.3rem;"> */
+    }
+    .ct-person h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.9rem; text-transform: uppercase; margin-bottom: 0.15rem; }
+    .ct-person .title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.6; margin-bottom: 1rem; }
+    .ct-person .bio { font-size: 0.9rem; line-height: 1.65; opacity: 0.78; }
+
+    footer { background: var(--black); padding: 1.6rem 3rem; text-align: center; font-size: 0.8rem; opacity: 0.35; }
+
+    /* TIMELINE */
+    .steps-timeline { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .st-row { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .st-last .st-left { align-items: flex-start; }
+    .st-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 52px; }
+    .st-bubble {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--teal); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; z-index: 1;
+      box-shadow: 0 0 0 4px rgba(0,168,173,0.2);
+    }
+    .st-bubble.st-purple { background: var(--purple); box-shadow: 0 0 0 4px rgba(124,77,189,0.2); }
+    .st-line { width: 2px; flex: 1; min-height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.15), rgba(255,255,255,0.05)); margin: 4px 0; }
+    .st-body { padding: 0.6rem 0 2.5rem; flex: 1; }
+    .st-last .st-body { padding-bottom: 0.5rem; }
+    .st-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900; font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--teal); margin-bottom: 0.3rem; opacity: 0.8;
+    }
+    .st-body h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 800; font-size: 1.2rem; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 0.8rem; line-height: 1.1;
+    }
+    .st-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .st-chip {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.3rem 0.8rem;
+      font-size: 0.82rem; color: rgba(255,255,255,0.82);
+      border-radius: 2px;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    .hero-content > * { animation: fadeUp 0.6s ease both; }
+    .hero-content > *:nth-child(1) { animation-delay:.05s }
+    .hero-content > *:nth-child(2) { animation-delay:.15s }
+    .hero-content > *:nth-child(3) { animation-delay:.25s }
+    .hero-content > *:nth-child(4) { animation-delay:.35s }
+    .hero-content > *:nth-child(5) { animation-delay:.45s }
+    .hero-content > *:nth-child(6) { animation-delay:.55s }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .sec, .v-intro { padding: 3rem 1.5rem; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .hero-shape1 { width: 100%; clip-path: none; opacity: 0.3; }
+      .ohjelma-grid, .ct-grid, .price-grid { grid-template-columns: 1fr; }
+      .why-grid, .coaching-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="Mielen Kompassi" style="height:42px; width:auto;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#ohjelma">Ohjelma</a></li>
+    <li><a href="#valmennus">Valmennus</a></li>
+    <li><a href="#rakenne">Rakenne</a></li>
+    <li><a href="#hinnoittelu">Hinnoittelu</a></li>
+    <li><a href="#yhteystiedot">Yhteystiedot</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-shape1"></div>
+  <div class="hero-shape2"></div>
+  <div class="hero-content">
+    <span class="hero-tag">Psyykkisen suorituskyvyn ohjelma</span>
+    <img src="logo.png" alt="Mielen Kompassi" style="height:130px; width:auto; margin-bottom:0.6rem; display:block;">
+    <p class="hero-sub">Mentaalinen etu alkaa täältä</p>
+    <p class="hero-tagline">Data näyttää suunnan. Valmennus vie perille.</p>
+    <div class="hero-cards">
+      <div class="hero-card">
+        <div class="hero-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <p class="hero-card-title">Urheilijoille &amp; joukkueille</p>
+        <p class="hero-card-text">Kauden mittainen kokonaisvaltainen kehitysohjelma</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <p class="hero-card-title">Data + valmennus</p>
+        <p class="hero-card-text">Asiantuntijaohjaus ja digitaalinen seuranta yhdessä</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <p class="hero-card-title">Mitattavaa &amp; näkyvää</p>
+        <p class="hero-card-text">Psyykkinen kuormitus johdettavaan muotoon</p>
+      </div>
+    </div>
+    <a href="#hinnoittelu" class="hero-btn">Katso paketit →</a>
+  </div>
+
+  <!-- PHONE MOCKUP -->
+  <div class="hero-phone">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-screen-header">🧭 Mielen Kompassi</div>
+        <div class="phone-screen-body">
+          <div class="phone-score">7.2<span style="font-size:1rem">/10</span></div>
+          <div class="phone-score-label">Psyykkinen suorituskyky</div>
+          <!-- Radar chart SVG — 4 axes -->
+          <svg class="phone-radar" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+            <!-- Grid squares (4-axis) -->
+            <polygon points="50,8 82,50 50,82 18,50" fill="none" stroke="#eee" stroke-width="1"/>
+            <polygon points="50,22 68,50 50,68 32,50" fill="none" stroke="#eee" stroke-width="1"/>
+            <polygon points="50,36 59,50 50,59 41,50" fill="none" stroke="#eee" stroke-width="1"/>
+            <!-- Axes -->
+            <line x1="50" y1="8" x2="50" y2="82" stroke="#eee" stroke-width="0.5"/>
+            <line x1="18" y1="50" x2="82" y2="50" stroke="#eee" stroke-width="0.5"/>
+            <!-- Data polygon -->
+            <polygon points="50,14 76,50 50,74 26,50" fill="rgba(0,168,173,0.3)" stroke="#00a8ad" stroke-width="1.5"/>
+            <!-- Labels -->
+            <text x="50" y="5" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Painekestävyys</text>
+            <text x="88" y="52" text-anchor="start" font-size="5" fill="#555">Itseluottamus</text>
+            <text x="50" y="90" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Palautuminen</text>
+            <text x="14" y="52" text-anchor="end" font-size="5" fill="#555">Keskittyminen</text>
+          </svg>
+          <!-- Bars -->
+          <div class="phone-bar"><div class="phone-bar-label">Painekestävyys</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:62%;background:#00a8ad"></div></div></div>
+          <div class="phone-bar"><div class="phone-bar-label">Itseluottamus</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:78%;background:#27ae60"></div></div></div>
+          <div class="phone-bar"><div class="phone-bar-label">Palautuminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:42%;background:#e74c3c"></div></div></div>
+          <div class="phone-bar"><div class="phone-bar-label">Keskittyminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:55%;background:#f39c12"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- OHJELMA -->
+<section class="sec" id="ohjelma">
+  <div class="inner">
+    <p class="eyebrow">Mikä Mielen Kompassi on?</p>
+    <h2>Visuaalinen hyvinvointiprofiili</h2>
+    <div class="ohjelma-grid">
+
+      <!-- LEFT: feature cards -->
+      <div class="ohjelma-features">
+        <div class="ofeature">
+          <div class="ofeature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <div>
+            <h3>Helppo käyttää</h3>
+            <p>Käyttäjä arvioi osa-alueet asteikolla 1–10 säännöllisesti. Selkeä ja nopea täyttää.</p>
+          </div>
+        </div>
+        <div class="ofeature">
+          <div class="ofeature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <div>
+            <h3>Muokattava</h3>
+            <p>Mahdollisuus valita kehityskohteet kuten ajanhallinta, stressi tai motivaatio.</p>
+          </div>
+        </div>
+        <div class="ofeature">
+          <div class="ofeature-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <h3>Toimenpiteet ja seuranta</h3>
+            <p>Konkreettiset toimenpide-ehdotukset ja aikataulutettu kehityssuunnitelma. Seuranta välietapein.</p>
+          </div>
+        </div>
+        <div class="ohjelma-quote">
+          <p>Sovellus, joka tekee urheilijan hyvinvoinnista <strong>visuaalisesti näkyvää</strong> sekä yksilö- että organisaatiotasolla.</p>
+          <p>Mitä pyöreämpi ympyrä, sitä tasapainoisempi kokonaisuus. Epätasainen muoto paljastaa heti kuormituksen riskikohdat.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT: slider mockup -->
+      <div class="slider-mockup">
+        <div class="sm-header">
+          <span class="sm-logo">🧭</span>
+          <span class="sm-title">Arvioi tämän hetken tila</span>
+        </div>
+        <div class="sm-body">
+          <p class="sm-sub">Asteikko: 1 = ei voisi olla huonommin · 10 = todella tyytyväinen</p>
+
+          <div class="sm-row">
+            <div class="sm-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Painekestävyys
+            </div>
+            <div class="sm-track"><div class="sm-fill" style="width:62%"></div><div class="sm-thumb" style="left:62%"></div></div>
+            <span class="sm-val">6.2</span>
+          </div>
+
+          <div class="sm-row">
+            <div class="sm-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              Itseluottamus
+            </div>
+            <div class="sm-track"><div class="sm-fill" style="width:78%"></div><div class="sm-thumb" style="left:78%"></div></div>
+            <span class="sm-val">7.8</span>
+          </div>
+
+          <div class="sm-row">
+            <div class="sm-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+              Keskittyminen
+            </div>
+            <div class="sm-track"><div class="sm-fill sm-fill-orange" style="width:48%"></div><div class="sm-thumb sm-thumb-orange" style="left:48%"></div></div>
+            <span class="sm-val">4.8</span>
+          </div>
+
+          <div class="sm-row">
+            <div class="sm-label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+              Palautuminen
+            </div>
+            <div class="sm-track"><div class="sm-fill sm-fill-red" style="width:35%"></div><div class="sm-thumb sm-thumb-red" style="left:35%"></div></div>
+            <span class="sm-val">3.5</span>
+          </div>
+
+          <div class="sm-divider"></div>
+          <div class="sm-total-row">
+            <span class="sm-total-label">Kokonaistulos</span>
+            <div class="sm-total-bar"><div class="sm-total-fill" style="width:56%"></div></div>
+            <span class="sm-total-val">5.6 / 10</span>
+          </div>
+
+          <div class="sm-alert">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Kriittinen kehityskohde: Palautuminen
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MIKSI TOIMII -->
+<section class="sec bg-dark">
+  <div class="inner">
+    <p class="eyebrow">Miksi ohjelma toimii?</p>
+    <h2>Miksi ohjelma toimii?</h2>
+    <p class="lead">Urheilija ja joukkue hallitsevat paremmin psyykkistä kuormitusta, suoriutuvat tasaisemmin paineen alla ja saavuttavat kilpailukauden tavoitteet tehokkaammin.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">01</div>
+        <h3>Ennakointi</h3>
+        <p>Kuormitus ja riskialueet tunnistetaan ennen uupumista.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">02</div>
+        <h3>Tavoitteellisuus</h3>
+        <p>Kehitystoimet ovat suunnitelmallisia, eivät reaktiivisia. Yhdistää asiantuntijavalmentajan ohjauksen ja digitaalisen seurannan.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">03</div>
+        <h3>Data</h3>
+        <p>Keskustelut perustuvat dataan, eivät oletuksiin. Hyvinvoinnin kehittäminen on mitattavaa ja seurattavaa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PSYYKKINEN VALMENNUS -->
+<section class="sec v-intro" id="valmennus" style="padding-bottom:1rem">
+  <div class="inner">
+    <p class="eyebrow">Psyykkinen valmennus</p>
+    <h2>Työkalu, joka paljastaa urheilijoiden henkisen kuormituksen ennen kuin suoritus romahtaa</h2>
+  </div>
+</section>
+<div class="coaching-grid">
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+    </div>
+    <h3>Keskittyminen</h3>
+    <ul><li>Fokus rauhoittamiseen</li><li>Rutiinit, jotka palauttavat keskittymisen nopeasti</li></ul>
+  </div>
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+    </div>
+    <h3>Virheiden käsittely</h3>
+    <ul><li>Tilanteen nollaus</li><li>Negatiivisen sisäisen puheen lopettaminen</li><li>Suunnitelmaan palaaminen ilman paniikkia</li></ul>
+  </div>
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <h3>Painekestävyys</h3>
+    <ul><li>Hermoston rauhoittaminen</li><li>Päätöksentekokyky</li><li>Jännityksen muuttaminen energiaksi</li></ul>
+  </div>
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <h3>Itseluottamus</h3>
+    <ul><li>Luottamus omaan rytmiin</li><li>Kyky pitää kiinni omasta suunnitelmasta</li></ul>
+  </div>
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+    </div>
+    <h3>Mielikuvaharjoittelu</h3>
+    <ul><li>Mielikuvia onnistuneista suorituksista</li><li>Painehetkien simulointia</li><li>Päätöksenteon vahvistamista etukäteen</li></ul>
+  </div>
+  <div class="c-card">
+    <div class="c-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+    </div>
+    <h3>Motivaatio</h3>
+    <ul><li>Palautuminen henkisesti</li><li>Motivaation ylläpito</li><li>Ylikuormittumisen välttäminen</li></ul>
+  </div>
+</div>
+
+<!-- RAKENNE -->
+<section class="sec bg-dark" id="rakenne">
+  <div class="inner">
+    <p class="eyebrow">Ohjelman rakenne</p>
+    <h2>Psyykkisen suorituskyvyn ohjelma</h2>
+
+    <div class="steps-timeline">
+
+      <div class="st-row">
+        <div class="st-left">
+          <div class="st-bubble">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+          </div>
+          <div class="st-line"></div>
+        </div>
+        <div class="st-body">
+          <div class="st-num">01</div>
+          <h3>Aloitusluento ja sovelluksen esittely</h3>
+          <div class="st-chips">
+            <span class="st-chip">Psyykkisen valmennuksen esittely</span>
+            <span class="st-chip">Ohjelman tavoitteet</span>
+            <span class="st-chip">Sovelluksen käyttö</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="st-row">
+        <div class="st-left">
+          <div class="st-bubble st-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <div class="st-line"></div>
+        </div>
+        <div class="st-body">
+          <div class="st-num">02</div>
+          <h3>Alkukartoitus</h3>
+          <div class="st-chips">
+            <span class="st-chip">Urheilijat tekevät arvioinnin sovelluksella</span>
+            <span class="st-chip">Henkilökohtaiset tavoitteet</span>
+            <span class="st-chip">Joukkueen kokonaiskuva</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="st-row">
+        <div class="st-left">
+          <div class="st-bubble">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="st-line"></div>
+        </div>
+        <div class="st-body">
+          <div class="st-num">03</div>
+          <h3>Luento — tavoitteet</h3>
+          <div class="st-chips">
+            <span class="st-chip">Joukkueen tulokset läpi</span>
+            <span class="st-chip">Yhteiset tavoitteet kaudelle</span>
+            <span class="st-chip">Henkilökohtaisten tavoitteiden tukeminen</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="st-row">
+        <div class="st-left">
+          <div class="st-bubble st-purple">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="st-line"></div>
+        </div>
+        <div class="st-body">
+          <div class="st-num">04</div>
+          <h3>Seuranta ja luento</h3>
+          <div class="st-chips">
+            <span class="st-chip">Välikatsaus sovelluksen datasta</span>
+            <span class="st-chip">Luento joukkuedatan pohjalta</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="st-row st-last">
+        <div class="st-left">
+          <div class="st-bubble">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div class="st-body">
+          <div class="st-num">05</div>
+          <h3>Yhteenveto ja päätös</h3>
+          <div class="st-chips">
+            <span class="st-chip">Kauden loppuraportti</span>
+            <span class="st-chip">Kehityssuunnitelmat seuraavalle kaudelle</span>
+            <span class="st-chip">Palautekeskustelu joukkueen kanssa</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HINNOITTELU -->
+<section class="sec" id="hinnoittelu">
+  <div class="inner">
+    <p class="eyebrow">Hinnoittelu / kausi</p>
+    <h2>Psyykkisen suorituskyvyn ohjelma</h2>
+    <div class="price-grid">
+      <div class="p-box dark">
+        <p class="p-label">⭐ Pilotti · 6kk</p>
+        <p class="p-name">Pilottipaketti</p>
+        <div class="p-price">1250€</div>
+        <p class="p-per">+15 €/urheilija (10–30)<br>+11 €/urheilija (&gt;30)</p>
+        <ul class="p-features">
+          <li>2 live-luentoa + 1 etäluento</li>
+          <li>Sovellusalusta</li>
+          <li>Admin-näkymä</li>
+          <li>Kehityskohteet ja toimenpiteet</li>
+        </ul>
+        <a href="#yhteystiedot" class="p-btn">Ota yhteyttä →</a>
+        <p class="p-note">*Seura sitoutuu 6kk, antaa luvan käyttää tuloksia markkinoinnissa ja osallistuu palautekeskusteluun ohjelman kehittämiseksi.</p>
+      </div>
+      <div class="p-box light">
+        <p class="p-label">Peruspaketti seuroille</p>
+        <p class="p-name">Peruspaketti</p>
+        <div class="p-price">3000€</div>
+        <p class="p-per">+25 €/urheilija</p>
+        <ul class="p-features">
+          <li>2 live-luentoa + 1 etäluento</li>
+          <li>Sovellusalusta</li>
+          <li>Admin-näkymä</li>
+          <li>Kehityskohteet ja toimenpiteet</li>
+        </ul>
+        <a href="#yhteystiedot" class="p-btn">Ota yhteyttä →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- YHTEYSTIEDOT -->
+<section class="sec bg-dark" id="yhteystiedot">
+  <div class="inner">
+    <div class="ct-grid">
+      <div>
+        <p class="eyebrow">Yhteystiedot</p>
+        <p class="lead">Kiinnostuitko? Ota yhteyttä ja räätälöidään teille sopiva ohjelma.</p>
+        <div class="ct-rows">
+          <div class="ct-row"><div class="ct-icon">📞</div><a href="tel:+358440200343">+358 44 0200 343</a></div>
+          <div class="ct-row"><div class="ct-icon">✉️</div><a href="/cdn-cgi/l/email-protection#94f9f5e6fdbae4f5fffff5d4f3f9f5fdf8baf7fbf9"><span class="__cf_email__" data-cfemail="b6dbd7c4df98c6d7ddddd7f6d1dbd7dfda98d5d9db">[email&#160;protected]</span></a></div>
+          <div class="ct-row"><div class="ct-icon">📍</div><span>Jämsä</span></div>
+        </div>
+      </div>
+      <div class="ct-person">
+        <!-- KUVA-OHJE: Korvaa alla oleva harmaa ruutu omalla kuvallasi.
+             1. Tallenna kuva samaan kansioon kuin tämä tiedosto, nimellä: mari.jpg
+             2. Poista tämä div-elementti: <div class="ct-photo">...</div>
+             3. Lisää sen tilalle: <img src="mari.jpg" alt="Mari Pakka" style="width:110px;height:150px;object-fit:cover;margin-bottom:1.3rem;"> -->
+        <div class="ct-photo">Lisää kuva tähän<br>Tallenna: mari.jpg</div>
+        <h3>Mari Pakka</h3>
+        <p class="title">Valmentaja</p>
+        <p class="bio">Urheilijoiden psyykkinen valmentaja, ravintovalmentaja, insinööri, Licensed Master Practitioner of NLP™, RMP Sports Master.</p>
+      </div>
+   
