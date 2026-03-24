@@ -75,6 +75,14 @@
       line-height: 0.9; text-transform: uppercase; margin-bottom: 0.2em;
     }
     .hero h1 .inv { color: var(--black); }
+    .hero-logo-wrap {
+      background: white;
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+    }
+    .hero-logo-img { height: 90px; width: auto; display: block; }
     .hero-sub {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 700; font-size: clamp(1rem, 1.8vw, 1.4rem);
@@ -187,13 +195,15 @@
     }
     .ofeature h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.3rem; }
     .ofeature p { font-size: 0.88rem; line-height: 1.6; opacity: 0.8; }
+    .ohjelma-right { display: flex; flex-direction: column; gap: 0; }
+    .ohjelma-img-block { }
     .ohjelma-quote {
-      margin-top: 1.5rem; padding: 1.4rem;
+      padding: 1.2rem 1.4rem;
       background: rgba(0,0,0,0.2);
-      border-left: 3px solid var(--white);
-      display: flex; flex-direction: column; gap: 0.6rem;
+      border-left: 3px solid rgba(255,255,255,0.6);
     }
-    .ohjelma-quote p { font-size: 0.9rem; line-height: 1.65; opacity: 0.85; }
+    .ohjelma-quote p { font-size: 0.9rem; line-height: 1.65; opacity: 0.85; margin-bottom: 0.6rem; }
+    .ohjelma-quote p:last-child { margin-bottom: 0; }
     .ohjelma-quote strong { color: var(--white); font-weight: 600; }
 
     /* SLIDER MOCKUP */
@@ -426,7 +436,9 @@
   <div class="hero-shape2"></div>
   <div class="hero-content">
     <span class="hero-tag">Psyykkisen suorituskyvyn ohjelma</span>
-    <h1>MIELEN<br><span class="inv">KOMPASSI</span></h1>
+    <div class="hero-logo-wrap">
+      <img src="logo.png" alt="Mielen Kompassi" class="hero-logo-img">
+    </div>
     <p class="hero-sub">Mentaalinen etu alkaa täältä</p>
     <p class="hero-tagline">Data näyttää suunnan. Valmennus vie perille.</p>
     <div class="hero-cards">
@@ -528,71 +540,62 @@
             <p>Konkreettiset toimenpide-ehdotukset ja aikataulutettu kehityssuunnitelma. Seuranta välietapein.</p>
           </div>
         </div>
-        <div class="ohjelma-quote">
-          <p>Sovellus, joka tekee urheilijan hyvinvoinnista <strong>visuaalisesti näkyvää</strong> sekä yksilö- että organisaatiotasolla.</p>
-          <p>Mitä pyöreämpi ympyrä, sitä tasapainoisempi kokonaisuus. Epätasainen muoto paljastaa heti kuormituksen riskikohdat.</p>
-        </div>
       </div>
 
-      <!-- RIGHT: slider mockup -->
-      <div class="slider-mockup">
-        <div class="sm-header">
-          <span class="sm-logo">🧭</span>
-          <span class="sm-title">Arvioi tämän hetken tila</span>
-        </div>
-        <div class="sm-body">
-          <p class="sm-sub">Asteikko: 1 = ei voisi olla huonommin · 10 = todella tyytyväinen</p>
+      <!-- RIGHT: image + quote + sliders stacked -->
+      <div class="ohjelma-right">
 
-          <div class="sm-row">
-            <div class="sm-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Painekestävyys
-            </div>
-            <div class="sm-track"><div class="sm-fill" style="width:62%"></div><div class="sm-thumb" style="left:62%"></div></div>
-            <span class="sm-val">6.2</span>
-          </div>
-
-          <div class="sm-row">
-            <div class="sm-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              Itseluottamus
-            </div>
-            <div class="sm-track"><div class="sm-fill" style="width:78%"></div><div class="sm-thumb" style="left:78%"></div></div>
-            <span class="sm-val">7.8</span>
-          </div>
-
-          <div class="sm-row">
-            <div class="sm-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
-              Keskittyminen
-            </div>
-            <div class="sm-track"><div class="sm-fill sm-fill-orange" style="width:48%"></div><div class="sm-thumb sm-thumb-orange" style="left:48%"></div></div>
-            <span class="sm-val">4.8</span>
-          </div>
-
-          <div class="sm-row">
-            <div class="sm-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
-              Palautuminen
-            </div>
-            <div class="sm-track"><div class="sm-fill sm-fill-red" style="width:35%"></div><div class="sm-thumb sm-thumb-red" style="left:35%"></div></div>
-            <span class="sm-val">3.5</span>
-          </div>
-
-          <div class="sm-divider"></div>
-          <div class="sm-total-row">
-            <span class="sm-total-label">Kokonaistulos</span>
-            <div class="sm-total-bar"><div class="sm-total-fill" style="width:56%"></div></div>
-            <span class="sm-total-val">5.6 / 10</span>
-          </div>
-
-          <div class="sm-alert">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            Kriittinen kehityskohde: Palautuminen
+        <!-- Hyvinvointikuva + teksti -->
+        <div class="ohjelma-img-block">
+          <img src="hyvinvointi.png" alt="Visuaalinen hyvinvointiprofiili" style="width:100%; border-radius:8px; display:block;">
+          <div class="ohjelma-quote" style="margin-top:1rem">
+            <p>Sovellus, joka tekee urheilijan hyvinvoinnista <strong>visuaalisesti näkyvää</strong> sekä yksilö- että organisaatiotasolla.</p>
+            <p>Mitä pyöreämpi ympyrä, sitä tasapainoisempi kokonaisuus. Epätasainen muoto paljastaa heti kuormituksen riskikohdat.</p>
           </div>
         </div>
+
+        <!-- Liukusäätimet -->
+        <div class="slider-mockup" style="margin-top:1.5rem">
+          <div class="sm-header">
+            <span class="sm-logo">🧭</span>
+            <span class="sm-title">Arvioi tämän hetken tila</span>
+          </div>
+          <div class="sm-body">
+            <p class="sm-sub">Asteikko: 1 = ei voisi olla huonommin · 10 = todella tyytyväinen</p>
+            <div class="sm-row">
+              <div class="sm-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> Painekestävyys</div>
+              <div class="sm-track"><div class="sm-fill" style="width:62%"></div><div class="sm-thumb" style="left:62%"></div></div>
+              <span class="sm-val">6.2</span>
+            </div>
+            <div class="sm-row">
+              <div class="sm-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Itseluottamus</div>
+              <div class="sm-track"><div class="sm-fill" style="width:78%"></div><div class="sm-thumb" style="left:78%"></div></div>
+              <span class="sm-val">7.8</span>
+            </div>
+            <div class="sm-row">
+              <div class="sm-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg> Keskittyminen</div>
+              <div class="sm-track"><div class="sm-fill sm-fill-orange" style="width:48%"></div><div class="sm-thumb sm-thumb-orange" style="left:48%"></div></div>
+              <span class="sm-val">4.8</span>
+            </div>
+            <div class="sm-row">
+              <div class="sm-label"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg> Palautuminen</div>
+              <div class="sm-track"><div class="sm-fill sm-fill-red" style="width:35%"></div><div class="sm-thumb sm-thumb-red" style="left:35%"></div></div>
+              <span class="sm-val">3.5</span>
+            </div>
+            <div class="sm-divider"></div>
+            <div class="sm-total-row">
+              <span class="sm-total-label">Kokonaistulos</span>
+              <div class="sm-total-bar"><div class="sm-total-fill" style="width:56%"></div></div>
+              <span class="sm-total-val">5.6 / 10</span>
+            </div>
+            <div class="sm-alert">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Kriittinen kehityskohde: Palautuminen
+            </div>
+          </div>
+        </div>
+
       </div>
-
     </div>
   </div>
 </section>
@@ -824,11 +827,7 @@
         </div>
       </div>
       <div class="ct-person">
-        <!-- KUVA-OHJE: Korvaa alla oleva harmaa ruutu omalla kuvallasi.
-             1. Tallenna kuva samaan kansioon kuin tämä tiedosto, nimellä: mari.jpg
-             2. Poista tämä div-elementti: <div class="ct-photo">...</div>
-             3. Lisää sen tilalle: <img src="mari.jpg" alt="Mari Pakka" style="width:110px;height:150px;object-fit:cover;margin-bottom:1.3rem;"> -->
-        <div class="ct-photo">Lisää kuva tähän<br>Tallenna: mari.jpg</div>
+        <img src="mari.png" alt="Mari Pakka" style="display:none">
         <h3>Mari Pakka</h3>
         <p class="title">Valmentaja</p>
         <p class="bio">Urheilijoiden psyykkinen valmentaja, ravintovalmentaja, insinööri, Licensed Master Practitioner of NLP™, RMP Sports Master.</p>
