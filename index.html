@@ -45,24 +45,20 @@
     .hero {
       min-height: 100vh; background: var(--teal);
       position: relative; overflow: hidden;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 2rem;
-      padding: 8rem 3rem 5rem;
-      max-width: 100%;
+      display: flex; align-items: center;
+      padding: 7rem 3rem 5rem;
     }
     .hero-shape1 {
-      position: absolute; top: 0; right: -8%; bottom: 0; width: 52%;
+      position: absolute; top: 0; right: 0; bottom: 0; width: 45%;
       background: var(--teal-dark);
-      clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
     }
     .hero-shape2 {
-      position: absolute; top: 0; right: 21%; bottom: 0; width: 6%;
+      position: absolute; top: 0; right: 24%; bottom: 0; width: 5%;
       background: var(--white); opacity: 0.1;
       clip-path: polygon(45% 0, 100% 0, 55% 100%, 0% 100%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 520px; }
+    .hero-content { position: relative; z-index: 1; max-width: 560px; }
     .hero-tag {
       display: inline-block; background: var(--purple);
       font-family: 'Barlow Condensed', sans-serif;
@@ -76,13 +72,10 @@
     }
     .hero h1 .inv { color: var(--black); }
     .hero-logo-wrap {
-      background: white;
-      display: inline-block;
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
+      background: white; display: inline-block;
+      padding: 0.5rem 1rem; border-radius: 6px; margin-bottom: 1rem;
     }
-    .hero-logo-img { height: 90px; width: auto; display: block; }
+    .hero-logo-img { height: 80px; width: auto; display: block; }
     .hero-sub {
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 700; font-size: clamp(1rem, 1.8vw, 1.4rem);
@@ -112,10 +105,9 @@
 
     /* PHONE MOCKUP */
     .hero-phone {
-      position: relative; z-index: 2;
-      width: 200px; flex-shrink: 0;
+      position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
+      z-index: 2; width: 200px;
       animation: fadeUp 0.8s ease 0.6s both;
-      align-self: center;
     }
     .phone-frame {
       background: #1a1a1a;
@@ -411,7 +403,6 @@
       .steps-timeline { grid-template-columns: 1fr; }
       .steps-timeline .st-row[style] { max-width: 100% !important; }
       .hero-cards { flex-direction: column; }
-      .hero { grid-template-columns: 1fr; }
     }
   </style>
 </head>
