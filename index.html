@@ -58,7 +58,15 @@
       background: var(--white); opacity: 0.1;
       clip-path: polygon(45% 0, 100% 0, 55% 100%, 0% 100%);
     }
-    .hero-content { position: relative; z-index: 1; max-width: 560px; }
+    /* Inner wrapper limits width and places content + phone side by side */
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: 1100px; width: 100%; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 2rem;
+    }
+    .hero-content { max-width: 580px; flex: 1; }
+    .hero-phone-wrap { flex-shrink: 0; width: 200px; }
     .hero-tag {
       display: inline-block; background: var(--purple);
       font-family: 'Barlow Condensed', sans-serif;
@@ -103,10 +111,9 @@
     .hero-card-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.25rem; }
     .hero-card-text { font-size: 0.75rem; line-height: 1.4; opacity: 0.75; }
 
-    /* PHONE MOCKUP */
+    /* PHONE MOCKUP — now inside hero-phone-wrap, not absolute */
     .hero-phone {
-      position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
-      z-index: 2; width: 200px;
+      width: 100%;
       animation: fadeUp 0.8s ease 0.6s both;
     }
     .phone-frame {
@@ -396,7 +403,8 @@
       .v-intro { padding: 3rem 0 1rem; }
       .hero { padding: 7rem 1.5rem 4rem; }
       .hero-shape1 { width: 100%; clip-path: none; opacity: 0.3; }
-      .hero-phone { display: none; }
+      .hero-phone-wrap { display: none; }
+      .hero-inner { flex-direction: column; }
       .hero-content { max-width: 100%; }
       .ohjelma-grid, .ct-grid, .price-grid { grid-template-columns: 1fr; }
       .why-grid, .coaching-grid { grid-template-columns: 1fr; }
@@ -425,70 +433,68 @@
 <header class="hero">
   <div class="hero-shape1"></div>
   <div class="hero-shape2"></div>
-  <div class="hero-content">
-    <span class="hero-tag">Psyykkisen suorituskyvyn ohjelma</span>
-    <div class="hero-logo-wrap">
-      <img src="logo.png" alt="Mielen Kompassi" class="hero-logo-img">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <span class="hero-tag">Psyykkisen suorituskyvyn ohjelma</span>
+      <div class="hero-logo-wrap">
+        <img src="logo.png" alt="Mielen Kompassi" class="hero-logo-img">
+      </div>
+      <p class="hero-sub">Mentaalinen etu alkaa täältä</p>
+      <p class="hero-tagline">Data näyttää suunnan. Valmennus vie perille.</p>
+      <div class="hero-cards">
+        <div class="hero-card">
+          <div class="hero-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <p class="hero-card-title">Urheilijoille &amp; joukkueille</p>
+          <p class="hero-card-text">Kauden mittainen kokonaisvaltainen kehitysohjelma</p>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <p class="hero-card-title">Data + valmennus</p>
+          <p class="hero-card-text">Asiantuntijaohjaus ja digitaalinen seuranta yhdessä</p>
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <p class="hero-card-title">Mitattavaa &amp; näkyvää</p>
+          <p class="hero-card-text">Psyykkinen kuormitus johdettavaan muotoon</p>
+        </div>
+      </div>
+      <a href="#hinnoittelu" class="hero-btn">Katso paketit →</a>
     </div>
-    <p class="hero-sub">Mentaalinen etu alkaa täältä</p>
-    <p class="hero-tagline">Data näyttää suunnan. Valmennus vie perille.</p>
-    <div class="hero-cards">
-      <div class="hero-card">
-        <div class="hero-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <p class="hero-card-title">Urheilijoille &amp; joukkueille</p>
-        <p class="hero-card-text">Kauden mittainen kokonaisvaltainen kehitysohjelma</p>
-      </div>
-      <div class="hero-card">
-        <div class="hero-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        </div>
-        <p class="hero-card-title">Data + valmennus</p>
-        <p class="hero-card-text">Asiantuntijaohjaus ja digitaalinen seuranta yhdessä</p>
-      </div>
-      <div class="hero-card">
-        <div class="hero-card-icon">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <p class="hero-card-title">Mitattavaa &amp; näkyvää</p>
-        <p class="hero-card-text">Psyykkinen kuormitus johdettavaan muotoon</p>
-      </div>
-    </div>
-    <a href="#hinnoittelu" class="hero-btn">Katso paketit →</a>
-  </div>
 
-  <!-- PHONE MOCKUP -->
-  <div class="hero-phone">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="phone-screen-header">🧭 Mielen Kompassi</div>
-        <div class="phone-screen-body">
-          <div class="phone-score">7.2<span style="font-size:1rem">/10</span></div>
-          <div class="phone-score-label">Psyykkinen suorituskyky</div>
-          <!-- Radar chart SVG — 4 axes -->
-          <svg class="phone-radar" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
-            <!-- Grid squares (4-axis) -->
-            <polygon points="50,8 82,50 50,82 18,50" fill="none" stroke="#eee" stroke-width="1"/>
-            <polygon points="50,22 68,50 50,68 32,50" fill="none" stroke="#eee" stroke-width="1"/>
-            <polygon points="50,36 59,50 50,59 41,50" fill="none" stroke="#eee" stroke-width="1"/>
-            <!-- Axes -->
-            <line x1="50" y1="8" x2="50" y2="82" stroke="#eee" stroke-width="0.5"/>
-            <line x1="18" y1="50" x2="82" y2="50" stroke="#eee" stroke-width="0.5"/>
-            <!-- Data polygon -->
-            <polygon points="50,14 76,50 50,74 26,50" fill="rgba(0,168,173,0.3)" stroke="#00a8ad" stroke-width="1.5"/>
-            <!-- Labels -->
-            <text x="50" y="5" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Painekestävyys</text>
-            <text x="88" y="52" text-anchor="start" font-size="5" fill="#555">Itseluottamus</text>
-            <text x="50" y="90" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Palautuminen</text>
-            <text x="14" y="52" text-anchor="end" font-size="5" fill="#555">Keskittyminen</text>
-          </svg>
-          <!-- Bars -->
-          <div class="phone-bar"><div class="phone-bar-label">Painekestävyys</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:62%;background:#00a8ad"></div></div></div>
-          <div class="phone-bar"><div class="phone-bar-label">Itseluottamus</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:78%;background:#27ae60"></div></div></div>
-          <div class="phone-bar"><div class="phone-bar-label">Palautuminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:42%;background:#e74c3c"></div></div></div>
-          <div class="phone-bar"><div class="phone-bar-label">Keskittyminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:55%;background:#f39c12"></div></div></div>
+    <!-- PHONE MOCKUP -->
+    <div class="hero-phone-wrap">
+      <div class="hero-phone">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-screen-header">🧭 Mielen Kompassi</div>
+            <div class="phone-screen-body">
+              <div class="phone-score">7.2<span style="font-size:1rem">/10</span></div>
+              <div class="phone-score-label">Psyykkinen suorituskyky</div>
+              <svg class="phone-radar" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="50,8 82,50 50,82 18,50" fill="none" stroke="#eee" stroke-width="1"/>
+                <polygon points="50,22 68,50 50,68 32,50" fill="none" stroke="#eee" stroke-width="1"/>
+                <polygon points="50,36 59,50 50,59 41,50" fill="none" stroke="#eee" stroke-width="1"/>
+                <line x1="50" y1="8" x2="50" y2="82" stroke="#eee" stroke-width="0.5"/>
+                <line x1="18" y1="50" x2="82" y2="50" stroke="#eee" stroke-width="0.5"/>
+                <polygon points="50,14 76,50 50,74 26,50" fill="rgba(0,168,173,0.3)" stroke="#00a8ad" stroke-width="1.5"/>
+                <text x="50" y="5" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Painekestävyys</text>
+                <text x="88" y="52" text-anchor="start" font-size="5" fill="#555">Itseluottamus</text>
+                <text x="50" y="90" text-anchor="middle" font-size="5.5" fill="#555" font-weight="bold">Palautuminen</text>
+                <text x="14" y="52" text-anchor="end" font-size="5" fill="#555">Keskittyminen</text>
+              </svg>
+              <div class="phone-bar"><div class="phone-bar-label">Painekestävyys</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:62%;background:#00a8ad"></div></div></div>
+              <div class="phone-bar"><div class="phone-bar-label">Itseluottamus</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:78%;background:#27ae60"></div></div></div>
+              <div class="phone-bar"><div class="phone-bar-label">Palautuminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:42%;background:#e74c3c"></div></div></div>
+              <div class="phone-bar"><div class="phone-bar-label">Keskittyminen</div><div class="phone-bar-track"><div class="phone-bar-fill" style="width:55%;background:#f39c12"></div></div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
